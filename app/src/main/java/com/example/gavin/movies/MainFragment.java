@@ -177,6 +177,8 @@ public class MainFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Void param) {
+
+
             //adds all elements from jsonResponse array to mForecastArray
             mMovieAdapter.addAll(mMoviesList);
             mMovieAdapter.notifyDataSetChanged();
