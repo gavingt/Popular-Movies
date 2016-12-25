@@ -1,0 +1,14 @@
+
+<GridView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:numColumns="3"
+    android:horizontalSpacing="2dp"
+    android:paddingLeft="3dp"
+    android:paddingRight="1dp"
+    android:verticalSpacing="2dp"
+    android:background="#dddddd"
+    android:id="@+id/gridview"
+    tools:context="com.example.gavin.movies.MainFragment">
+</GridView>
