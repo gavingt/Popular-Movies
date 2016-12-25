@@ -11,6 +11,9 @@ import android.support.v4.app.Fragment;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -45,17 +48,14 @@ public class MainFragment extends Fragment {
     private MovieAdapter mMovieAdapter;
     private ArrayList<Movie> mMoviesList;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
+        setHasOptionsMenu(true);
 
         mMoviesList = new ArrayList<>();
         GridView gridView = (GridView) rootView.findViewById(R.id.gridview);
@@ -77,6 +77,29 @@ public class MainFragment extends Fragment {
 
     //TODO: How do I sort by popularity and review score?
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.main_fragment, menu);
+    }
+
+     /*
+     * @param item The menu item that was selected.
+     * @return boolean Return false to allow normal menu processing to
+     * proceed, true to consume it here.
+     * @see #onCreateOptionsMenu
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.menuSortRating) {
+
+        }
+        if (id == R.id.menuSortPopularity) {
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     public class FetchMoviesTask extends AsyncTask<Void, Void, Void> {
 
