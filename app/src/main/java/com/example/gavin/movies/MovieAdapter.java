@@ -27,6 +27,8 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
     ArrayList<Movie> mMovies;
     private final String LOG_TAG = MovieAdapter.class.getSimpleName();
+
+
     private final String URL_PREFIX = "http://image.tmdb.org/t/p/w185";
 
     public MovieAdapter(Context context, ArrayList<Movie> movies) {
@@ -34,7 +36,6 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
 
         mMovies = movies;
     }
-
 
     /**
      * Provides a view for an AdapterView (ListView, GridView, etc.)

@@ -38,6 +38,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import static android.R.id.list;
@@ -82,27 +83,55 @@ public class MainFragment extends Fragment {
         inflater.inflate(R.menu.main_fragment, menu);
     }
 
-     /*
-     * @param item The menu item that was selected.
-     * @return boolean Return false to allow normal menu processing to
-     * proceed, true to consume it here.
-     * @see #onCreateOptionsMenu
-     */
+    /*
+    * @param item The menu item that was selected.
+    * @return boolean Return false to allow normal menu processing to
+    * proceed, true to consume it here.
+    * @see #onCreateOptionsMenu
+    */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.menuSortRating) {
 
+            Collections.sort(mMoviesList, new Comparator<Movie>() {
+                @Override
+                public int compare(Movie firstMovie, Movie secondMovie) {
+                    if (firstMovie.mUserRating == secondMovie.mUserRating) {
+                        return 0;
+                    } else if (firstMovie.mUserRating < secondMovie.mUserRating) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                }
+            });
+            mMovieAdapter.notifyDataSetChanged();
         }
+
         if (id == R.id.menuSortPopularity) {
+
+            Collections.sort(mMoviesList, new Comparator<Movie>() {
+                @Override
+                public int compare(Movie firstMovie, Movie secondMovie) {
+                    if (firstMovie.mPopularity == secondMovie.mPopularity) {
+                        return 0;
+                    } else if (firstMovie.mPopularity < secondMovie.mPopularity) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                }
+            });
+            mMovieAdapter.notifyDataSetChanged();
 
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public class FetchMoviesTask extends AsyncTask<Void, Void, Void> {
 
+    public class FetchMoviesTask extends AsyncTask<Void, Void, Void> {
 
 
         @Override
@@ -175,7 +204,7 @@ public class MainFragment extends Fragment {
             try {
                 JSONObject root = new JSONObject(movieJsonStr);
                 JSONArray resultsArray = root.getJSONArray("results");
-                for (int i=0; i<resultsArray.length(); i++) {
+                for (int i = 0; i < resultsArray.length(); i++) {
                     JSONObject resultsArrayElement = (JSONObject) resultsArray.get(i);
                     mMoviesList.add(new Movie(
                             resultsArrayElement.optString("poster_path"),
@@ -184,7 +213,7 @@ public class MainFragment extends Fragment {
                             resultsArrayElement.optDouble("vote_average"),
                             resultsArrayElement.optString("overview"),
                             resultsArrayElement.optString("release_date"),
-                            resultsArrayElement.optString("backdrop_path") ));
+                            resultsArrayElement.optString("backdrop_path")));
                 }
 
             } catch (JSONException e) {
@@ -200,10 +229,6 @@ public class MainFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Void param) {
-
-
-            //adds all elements from jsonResponse array to mForecastArray
-            mMovieAdapter.addAll(mMoviesList);
             mMovieAdapter.notifyDataSetChanged();
         }
 
