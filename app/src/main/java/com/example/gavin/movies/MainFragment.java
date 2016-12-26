@@ -48,6 +48,7 @@ public class MainFragment extends Fragment {
     private final String LOG_TAG = MainFragment.class.getSimpleName();
     private MovieAdapter mMovieAdapter;
     private ArrayList<Movie> mMoviesList;
+    private Menu mMenu;
 
 
     @Override
@@ -79,12 +80,20 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.main_fragment, menu);
+        mMenu = menu;
     }
+
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+
+        MenuItem popularityMenuItem = mMenu.findItem(R.id.menuSortPopularity);
+        MenuItem ratingMenuItem = mMenu.findItem(R.id.menuSortRating);
+        String popularityTitle = (String)popularityMenuItem.getTitle();
+        String ratingTitle = (String)ratingMenuItem.getTitle();
+
         if (id == R.id.menuSortRating) {
 
             Collections.sort(mMoviesList, new Comparator<Movie>() {
@@ -100,6 +109,16 @@ public class MainFragment extends Fragment {
                 }
             });
             mMovieAdapter.notifyDataSetChanged();
+
+            if (popularityTitle.contains(">") || ratingTitle.contains(">")) {
+                popularityTitle = popularityTitle.replace(">", "");
+                ratingTitle = ratingTitle.replace(">", "");
+
+                popularityMenuItem.setTitle(popularityTitle);
+                ratingMenuItem.setTitle(ratingTitle);
+            }
+
+            item.setTitle(">" + item.getTitle());
         }
 
         if (id == R.id.menuSortPopularity) {
@@ -118,9 +137,19 @@ public class MainFragment extends Fragment {
             });
             mMovieAdapter.notifyDataSetChanged();
 
+            if (popularityTitle.contains(">") || ratingTitle.contains(">")) {
+                popularityTitle = popularityTitle.replace(">", "");
+                ratingTitle = ratingTitle.replace(">", "");
+
+                popularityMenuItem.setTitle(popularityTitle);
+                ratingMenuItem.setTitle(ratingTitle);
+            }
+
+            item.setTitle(">" + item.getTitle());
+
         }
 
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
 
