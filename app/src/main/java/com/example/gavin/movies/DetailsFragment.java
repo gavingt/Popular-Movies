@@ -35,7 +35,7 @@ public class DetailsFragment extends Fragment {
 
     private final String LOG_TAG = DetailsFragment.class.getSimpleName();
 
-    private final String BACKGROUND_URL_PREFIX = "http://image.tmdb.org/t/p/w780";
+    private final String BACKGROUND_URL_PREFIX = "http://image.tmdb.org/t/p/w500";
     private final String POSTER_URL_PREFIX = "http://image.tmdb.org/t/p/w185";
 
 
