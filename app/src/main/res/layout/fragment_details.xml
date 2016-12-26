@@ -13,6 +13,7 @@
         <ImageView
             android:id="@+id/background_image"
             android:layout_width="match_parent"
+            android:background="#600000FF"
             android:layout_height="match_parent"
             android:scaleType="centerCrop" />
 
@@ -22,7 +23,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:textColor="@android:color/white"
-            android:textSize="20sp" />
+            android:textSize="28sp" />
 
     </RelativeLayout>
 

@@ -2,17 +2,26 @@ package com.example.gavin.movies;
 
 
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Layout;
+import android.text.TextPaint;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+
+import java.util.zip.Inflater;
 
 import jp.wasabeef.picasso.transformations.ColorFilterTransformation;
 
@@ -31,8 +40,19 @@ public class DetailsFragment extends Fragment {
 
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        inflater.inflate(R.menu.details_fragment, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        setHasOptionsMenu(true);
+
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_details, container, false);
         Movie currentMovie = (Movie) getActivity().getIntent().getSerializableExtra("movieObject");
@@ -49,15 +69,34 @@ public class DetailsFragment extends Fragment {
         RatingBar ratingBar = (RatingBar) rootView.findViewById(R.id.movie_rating);
         ratingBar.setRating((float) (currentMovie.mUserRating/2));
 
-        TextView plotSynopsis = (TextView) rootView.findViewById(R.id.movie_synopsis);
+        final TextView plotSynopsis = (TextView) rootView.findViewById(R.id.movie_synopsis);
         plotSynopsis.setText(currentMovie.mPlotSynopsis);
+
+        plotSynopsis.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                ViewTreeObserver obs = plotSynopsis.getViewTreeObserver();
+                obs.removeOnGlobalLayoutListener(this);
+                int height = plotSynopsis.getHeight();
+                int scrollY = plotSynopsis.getScrollY();
+                Layout layout = plotSynopsis.getLayout();
+                int firstVisibleLineNumber = layout.getLineForVertical(scrollY);
+                int lastVisibleLineNumber = layout.getLineForVertical(height + scrollY);
+
+                //check is latest line fully visible
+                if (plotSynopsis.getHeight() < layout.getLineBottom(lastVisibleLineNumber)) {
+                    Toast.makeText(getActivity(), "text cut off", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
         TextView releaseDate = (TextView) rootView.findViewById(R.id.movie_release_date);
         releaseDate.setText("Release: " + formatDate(currentMovie));
 
-
         return rootView;
     }
+
+
 
     private String formatDate(Movie currentMovie) {
         String unformattedDate = currentMovie.mReleaseDate;

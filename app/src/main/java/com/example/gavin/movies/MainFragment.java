@@ -76,19 +76,12 @@ public class MainFragment extends Fragment {
         return rootView;
     }
 
-    //TODO: How do I sort by popularity and review score?
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.main_fragment, menu);
     }
 
-    /*
-    * @param item The menu item that was selected.
-    * @return boolean Return false to allow normal menu processing to
-    * proceed, true to consume it here.
-    * @see #onCreateOptionsMenu
-    */
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
