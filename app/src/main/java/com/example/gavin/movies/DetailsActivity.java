@@ -10,8 +10,13 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         if (savedInstanceState == null) {
+
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new DetailsFragment())
+                    .add(R.id.synopsisContainer, new SynopsisFragment())
+                    .commit();
+
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.detailsContainer, new DetailsFragment())
                     .commit();
         }
     }

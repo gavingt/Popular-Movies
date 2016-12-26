@@ -53,13 +53,8 @@ public class DetailsFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_details, container, false);
         Movie currentMovie = (Movie) getActivity().getIntent().getSerializableExtra("movieObject");
-
-        ImageView backgroundImage = (ImageView) rootView.findViewById(R.id.background_image);
-        ColorFilterTransformation transformation = new ColorFilterTransformation(0x96000032);
-        Picasso.with(getContext()).load(BACKGROUND_URL_PREFIX + currentMovie.mBackdropImageUrl).transform(transformation).into(backgroundImage);
 
         ImageView moviePoster = (ImageView) rootView.findViewById(R.id.movie_poster);
         Picasso.with(getContext()).load(POSTER_URL_PREFIX + currentMovie.mMoviePosterUrl).into(moviePoster);
@@ -68,27 +63,6 @@ public class DetailsFragment extends Fragment {
 
         RatingBar ratingBar = (RatingBar) rootView.findViewById(R.id.movie_rating);
         ratingBar.setRating((float) (currentMovie.mUserRating/2));
-
-        final TextView plotSynopsis = (TextView) rootView.findViewById(R.id.movie_synopsis);
-        plotSynopsis.setText(currentMovie.mPlotSynopsis);
-
-        plotSynopsis.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                ViewTreeObserver obs = plotSynopsis.getViewTreeObserver();
-                obs.removeOnGlobalLayoutListener(this);
-                int height = plotSynopsis.getHeight();
-                int scrollY = plotSynopsis.getScrollY();
-                Layout layout = plotSynopsis.getLayout();
-                int firstVisibleLineNumber = layout.getLineForVertical(scrollY);
-                int lastVisibleLineNumber = layout.getLineForVertical(height + scrollY);
-
-                //check is latest line fully visible
-                if (plotSynopsis.getHeight() < layout.getLineBottom(lastVisibleLineNumber)) {
-                    Toast.makeText(getActivity(), "text cut off", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
 
         TextView releaseDate = (TextView) rootView.findViewById(R.id.movie_release_date);
         releaseDate.setText("Release: " + formatDate(currentMovie));

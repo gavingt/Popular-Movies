@@ -5,32 +5,9 @@
     android:orientation="vertical"
     tools:context="com.example.gavin.movies.DetailsFragment">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3">
-
-        <ImageView
-            android:id="@+id/background_image"
-            android:layout_width="match_parent"
-            android:background="@color/colorPrimary"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
-
-        <TextView
-            android:id="@+id/movie_synopsis"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:textColor="@android:color/white"
-            android:textSize="28sp" />
-
-    </RelativeLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_height="match_parent"
         android:background="#dddddd"
         android:gravity="center_vertical"
         android:orientation="horizontal">
