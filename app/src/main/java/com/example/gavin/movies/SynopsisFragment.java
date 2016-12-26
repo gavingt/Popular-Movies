@@ -1,6 +1,7 @@
 package com.example.gavin.movies;
 
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Layout;
@@ -16,6 +17,9 @@ import com.squareup.picasso.Picasso;
 
 import jp.wasabeef.picasso.transformations.ColorFilterTransformation;
 
+import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
+import static com.squareup.picasso.Picasso.with;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,39 +32,20 @@ public class SynopsisFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_synopsis, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_synopsis, container, false);
         Movie currentMovie = (Movie) getActivity().getIntent().getSerializableExtra("movieObject");
 
         ImageView backgroundImage = (ImageView) rootView.findViewById(R.id.background_image);
         ColorFilterTransformation transformation = new ColorFilterTransformation(0x96000032);
-        Picasso.with(getContext()).load(BACKGROUND_URL_PREFIX + currentMovie.mBackdropImageUrl).transform(transformation).into(backgroundImage);
+        with(getContext()).load(BACKGROUND_URL_PREFIX + currentMovie.mBackdropImageUrl).transform(transformation).into(backgroundImage);
 
 
         final TextView plotSynopsis = (TextView) rootView.findViewById(R.id.movie_synopsis);
         plotSynopsis.setText(currentMovie.mPlotSynopsis);
 
-        plotSynopsis.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                ViewTreeObserver obs = plotSynopsis.getViewTreeObserver();
-                obs.removeOnGlobalLayoutListener(this);
-                int height = plotSynopsis.getHeight();
-                int scrollY = plotSynopsis.getScrollY();
-                Layout layout = plotSynopsis.getLayout();
-                int firstVisibleLineNumber = layout.getLineForVertical(scrollY);
-                int lastVisibleLineNumber = layout.getLineForVertical(height + scrollY);
-
-                //check is latest line fully visible
-                if (plotSynopsis.getHeight() < layout.getLineBottom(lastVisibleLineNumber)) {
-                    Toast.makeText(getActivity(), "text cut off", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
-
         return rootView;
-    }
 
+    }
 
 
 }
